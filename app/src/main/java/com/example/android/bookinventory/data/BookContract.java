@@ -27,47 +27,9 @@ public final class BookContract {
         public static final String COLUMN_PRODUCT_SUPPLIER_NAME = "supplier_name";
         public static final String COLUMN_PRODUCT_SUPPLIER_PHONE = "supplier_phone";
 
-
-        //Possible genres
-        public static final int GENRE_UNKNOWN = 0;
-        public static final int GENRE_TRAGEDY = 1;
-        public static final int GENRE_TRAGIC_COMEDY = 2;
-        public static final int GENRE_FANTASY = 3;
-        public static final int GENRE_MYTHOLOGY = 4;
-        public static final int GENRE_ADVENTURE = 5;
-        public static final int GENRE_MYSTERY = 6;
-        public static final int GENRE_SCIENCE_FICTION = 7;
-        public static final int GENRE_DRAMA = 8;
-        public static final int GENRE_ROMANCE = 9;
-        public static final int GENRE_ACTION_ADVENTURE = 10;
-        public static final int GENRE_SATIRE = 11;
-        public static final int GENRE_HORROR = 12;
+        //A list of predefined genres will show up in a spinner
+        //For now we need only one for debugging purposes
         public static final int GENRE_NON_FICTION = 13;
-        public static final int GENRE_FICTION = 14;
-
-
-        /*
-        * Note:
-        *
-        * The classic major genres of literature are:
-        * Tragedy
-        * Tragic comedy
-        * Fantasy
-        * Mythology
-        * Adventure
-        * Mystery
-        *
-        * Other major book genres include
-        * Science fiction
-        * Drama
-        * Romance
-        * Action / Adventure
-        * Satire
-        * Horror
-        *
-        * Source: https://en.wikipedia.org/wiki/List_of_writing_genres
-        *
-        * */
 
     }
 }

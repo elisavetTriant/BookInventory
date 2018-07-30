@@ -1,4 +1,13 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Book Inventory</string>
     <string name="action_delete_all">Delete All</string>
+    <string name="insert_error_message">Error inserting row in the database.</string>
+    <string name="insert_ok_message">Book saved with row id: <xliff:g id="rowID" example="2">%d</xliff:g>.</string>
+    <string name="deleted_message">Deleted <xliff:g id="deletedRows" example="2">%d</xliff:g> rows from the database!</string>
+    <string name="count_message">The <xliff:g id="tableName" example="books">%s</xliff:g> table contains <xliff:g id="rows" example="2">%d</xliff:g> rows.</string>
+    <string name="dummy_product_name">Against the MACHINE - Lee Siegel</string>
+    <string name="dummy_product_price">4.99</string>
+    <string name="dummy_supplier_name">Public S.A.</string>
+    <string name="dummy_supplier_phone">+30 2108181333</string>
 </resources>

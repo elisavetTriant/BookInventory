@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        TextView displayView = (TextView) findViewById(R.id.database_info);
+        TextView displayView = findViewById(R.id.database_info);
 
 
         // Define a projection that specifies which columns from the database
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             // Create a header in the Text View that looks like this:
             //
             // The books table contains <number of rows in Cursor> books.
-            String countMessage = "The " + BookEntry.TABLE_NAME + " table contains " + cursor.getCount() + " rows.\n\n";
+            String countMessage = getString(R.string.count_message, BookEntry.TABLE_NAME, cursor.getCount()) + "\n\n";
 
             displayView.setText(countMessage);
 
@@ -142,22 +142,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(BookEntry.COLUMN_PRODUCT_NAME, "Against the MACHINE - Lee Siegel");
-        values.put(BookEntry.COLUMN_PRODUCT_PRICE, "4.99");
+        values.put(BookEntry.COLUMN_PRODUCT_NAME, getString(R.string.dummy_product_name));
+        values.put(BookEntry.COLUMN_PRODUCT_PRICE, getString(R.string.dummy_product_price));
         values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, 3);
-        values.put(BookEntry.COLUMN_PRODUCT_GENRE, 13);
-        values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME, "Public S.A.");
+        values.put(BookEntry.COLUMN_PRODUCT_GENRE, BookEntry.GENRE_NON_FICTION);
+        values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME, getString(R.string.dummy_supplier_name));
         //Note: Comment out the following line and the insert will fail as the field is marked as NOT NULL
-        values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "+30 2108181333");
+        values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, getString(R.string.dummy_supplier_phone));
 
         // Insert the new row
         long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
 
         //Show the result
         if (newRowId == -1){
-            Toast.makeText(this, "Error inserting row in the database.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.insert_error_message), Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(this, "Book saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.insert_ok_message, newRowId), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
         int deletedRows = db.delete(BookEntry.TABLE_NAME, null, null);
 
-        Toast.makeText(this, "Deleted " + deletedRows + " rows from the database!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.deleted_message, deletedRows), Toast.LENGTH_SHORT).show();
     }
 
     @Override
