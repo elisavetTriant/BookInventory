@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="@string/action_delete_all"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_update_all"
+        android:orderInCategory="101"
+        android:title="@string/action_update_all"
+        app:showAsAction="never" />
 </menu>

@@ -2,11 +2,12 @@ package com.example.android.bookinventory;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,11 +16,14 @@ import android.widget.Toast;
 
 
 import com.example.android.bookinventory.data.BookContract.BookEntry;
-import com.example.android.bookinventory.data.InventoryDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private InventoryDbHelper mDbHelper;
+    /**
+     * Tag for the log messages
+     */
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mDbHelper = new InventoryDbHelper(this);
     }
 
     /**
@@ -47,9 +50,6 @@ public class MainActivity extends AppCompatActivity {
     private void displayDatabaseInfo() {
 
         // TODO: Read all rows from the database and display it in a text view
-        
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         TextView displayView = findViewById(R.id.database_info);
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE
         };
 
-        Cursor cursor = db.query(BookEntry.TABLE_NAME, projection, null, null, null, null, null);
+        Cursor cursor = getContentResolver().query(BookEntry.CONTENT_URI, projection, null, null, null);
 
         try {
 
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
             displayView.setText(countMessage);
 
-            if (cursor.getCount()>0) {
+            if (cursor.getCount() > 0) {
                 // Show columns names in a horizontal list
                 //
                 displayView.append(BookEntry._ID + " - " +
@@ -135,47 +135,93 @@ public class MainActivity extends AppCompatActivity {
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
      */
     private void insertBook() {
-        // TODO: Insert a single book into the database
+        // TODO: Check the insert method of the BookProvider. Insert a single book into the database.
 
-        // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        try {
+            // Create a new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
+            //Note: Comment out the following line and the insert will fail as the field is marked as NOT NULL
+            values.put(BookEntry.COLUMN_PRODUCT_NAME, getString(R.string.dummy_product_name));
+            //Note: Comment out the following line and the insert will fail as the field is marked as NOT NULL
+            values.put(BookEntry.COLUMN_PRODUCT_PRICE, getString(R.string.dummy_product_price));
+            //Comment out the following line and the insert will fail with the message Book requires valid quantity and cannot be null.
+            values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, 1);
+            //Comment out the following line and the insert will fail with the message Book requires valid quantity and cannot be null.
+            //values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, -9);
+            //Comment out the following line and the insert will NOT fail, it will save the value 0 instead (which maps to BookEntry.GENRE_UNKNOWN)
+            values.put(BookEntry.COLUMN_PRODUCT_GENRE, BookEntry.GENRE_HORROR);
+            //Comment out the following line and the insert will fail with the message Book requires valid genre.
+            //values.put(BookEntry.COLUMN_PRODUCT_GENRE, 25);
+            //Note: Comment out the following line and the insert will fail as the field is marked as NOT NULL
+            values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME, getString(R.string.dummy_supplier_name));
+            //Note: Comment out the following line and the insert will fail as the field is marked as NOT NULL
+            values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, getString(R.string.dummy_supplier_phone));
 
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(BookEntry.COLUMN_PRODUCT_NAME, getString(R.string.dummy_product_name));
-        values.put(BookEntry.COLUMN_PRODUCT_PRICE, getString(R.string.dummy_product_price));
-        values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, 3);
-        values.put(BookEntry.COLUMN_PRODUCT_GENRE, BookEntry.GENRE_NON_FICTION);
-        values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME, getString(R.string.dummy_supplier_name));
-        //Note: Comment out the following line and the insert will fail as the field is marked as NOT NULL
-        values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, getString(R.string.dummy_supplier_phone));
 
-        // Insert the new row
-        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
+            //This will fail as the URI is not correct and the UriMatcher in the BookProvider insert method will throw an IllegalArgumentException
+            //Uri resultUri = getContentResolver().insert(Uri.withAppendedPath(BookEntry.CONTENT_URI, "test"), values);
 
-        //Show the result
-        if (newRowId == -1){
-            Toast.makeText(this, getString(R.string.insert_error_message), Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(this, getString(R.string.insert_ok_message, newRowId), Toast.LENGTH_SHORT).show();
+            // Insert the new row
+            Uri resultUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
+
+            if (resultUri != null) {
+                String id = resultUri.getLastPathSegment();
+                Toast.makeText(this, getString(R.string.insert_ok_message, id), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.insert_error_message), Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (IllegalArgumentException e) {
+            Log.e(LOG_TAG, e.getMessage());
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
     }
 
     /**
      * Helper method to delete all records from the database. For debugging purposes only.
-     * https://developer.android.com/training/data-storage/sqlite#DeleteDbRow
-     *
      * Setting whereClause and whereArgs to null eliminates the where clause from the delete query
      * and essentially deletes all book records from the database.
-     * So the raw SQL query would be delete * from books;
      */
-    private void deleteAll(){
-        // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+    private void deleteAll() {
 
-        int deletedRows = db.delete(BookEntry.TABLE_NAME, null, null);
+        // TODO: Delete all rows from the books table
+
+        int deletedRows = getContentResolver().delete(BookEntry.CONTENT_URI, null, null);
 
         Toast.makeText(this, getString(R.string.deleted_message, deletedRows), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Helper method to update all records from the database. For debugging purposes only.
+     * We are going to set all the inventory to 0 quantity
+     */
+    private void updateAll() {
+
+        // TODO: Update all the rows in the database. Set all to 0 quantity. Also perform at least one sanity check.
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, 0);
+            //Uncomment the below statement to test sanity check
+            //values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, -10);
+
+            int rowsAffected = getContentResolver().update(BookEntry.CONTENT_URI, values, null, null);
+
+            if (rowsAffected == 0) {
+                // If no rows were affected, then there was an error with the update.
+                Toast.makeText(this, getString(R.string.update_books_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the update was successful and we can display a toast.
+                Toast.makeText(this, getString(R.string.update_books_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -197,6 +243,10 @@ public class MainActivity extends AppCompatActivity {
             deleteAll();
             displayDatabaseInfo();
             return true;
+        } else if (id == R.id.action_update_all) {
+            updateAll();
+            displayDatabaseInfo();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -208,11 +258,4 @@ public class MainActivity extends AppCompatActivity {
         displayDatabaseInfo();
     }
 
-    // Typically, it is optimal to close the database in the onDestroy() of the calling Activity.
-    // https://developer.android.com/training/data-storage/sqlite#PersistingDbConnection
-    @Override
-    protected void onDestroy() {
-        mDbHelper.close();
-        super.onDestroy();
-    }
 }
