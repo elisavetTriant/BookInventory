@@ -1,6 +1,9 @@
 package com.example.android.bookinventory;
 
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,18 +14,30 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.android.bookinventory.data.BookContract.BookEntry;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
      * Tag for the log messages
      */
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    /**
+     * Adapter for the ListView
+     */
+    BookCursorAdapter mCursorAdapter;
+
+    /**
+     * Identifier for the pet data loader
+     */
+    private static final int BOOK_LOADER = 0;
 
 
     @Override
@@ -37,9 +52,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 insertBook();
-                displayDatabaseInfo();
             }
         });
+
+        // Find the ListView which will be populated with the pet data
+        ListView bookListView = findViewById(R.id.list_view);
+
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        TextView emptyView = findViewById(R.id.empty_list_info);
+        bookListView.setEmptyView(emptyView);
+
+        // Attach cursor adapter to the ListView
+        // There is no book data yet (until the loader finishes) so pass in null for the Cursor.
+        mCursorAdapter = new BookCursorAdapter(this, null);
+        bookListView.setAdapter(mCursorAdapter);
+
+        getLoaderManager().initLoader(BOOK_LOADER, null, this);
 
     }
 
@@ -47,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
      * Temporary helper method to display information in the onscreen TextView about the state of
      * the inventory database. For debugging purposes only.
      */
-    private void displayDatabaseInfo() {
+   /* private void displayDatabaseInfo() {
 
         // TODO: Read all rows from the database and display it in a text view
 
@@ -129,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             // resources and makes it invalid.
             cursor.close();
         }
-    }
+    }*/
 
     /**
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
@@ -145,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             //Note: Comment out the following line and the insert will fail as the field is marked as NOT NULL
             values.put(BookEntry.COLUMN_PRODUCT_PRICE, getString(R.string.dummy_product_price));
             //Comment out the following line and the insert will fail with the message Book requires valid quantity and cannot be null.
-            values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, 1);
+            values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, 3);
             //Comment out the following line and the insert will fail with the message Book requires valid quantity and cannot be null.
             //values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, -9);
             //Comment out the following line and the insert will NOT fail, it will save the value 0 instead (which maps to BookEntry.GENRE_UNKNOWN)
@@ -241,21 +269,45 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_delete_all) {
             deleteAll();
-            displayDatabaseInfo();
             return true;
         } else if (id == R.id.action_update_all) {
             updateAll();
-            displayDatabaseInfo();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Define a projection that specifies the columns from the table we care about.
+        String[] projection = {
+                BookEntry._ID,
+                BookEntry.COLUMN_PRODUCT_NAME,
+                BookEntry.COLUMN_PRODUCT_PRICE,
+                BookEntry.COLUMN_PRODUCT_QUANTITY
+        };
+
+        // This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(this,   // Parent activity context
+                BookEntry.CONTENT_URI,   // Provider content URI to query
+                projection,             // Columns to include in the resulting Cursor
+                null,                   // No selection clause
+                null,                   // No selection arguments
+                null);                  // Default sort order
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        // Update {@link PetCursorAdapter} with this new cursor containing updated book data
+        mCursorAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // Callback called when the data needs to be deleted
+        mCursorAdapter.swapCursor(null);
     }
 
 }

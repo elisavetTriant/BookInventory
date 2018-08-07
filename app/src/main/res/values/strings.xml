@@ -13,16 +13,17 @@
     <string name="action_update_all">Update All</string>
     <string name="update_books_failed">Batch Update Failed</string>
     <string name="update_books_successful">Batch Update Successful</string>
-    <string name="cannot_query_unknown_url">Cannot query unknown URI</string>
     <string name="book_requires_product_name">Book requires a product name.</string>
     <string name="book_requires_price">Book requires a price.</string>
     <string name="book_requires_valid_quantity">Book requires valid quantity and cannot be null.</string>
     <string name="book_requires_valid_genre">Book requires valid genre.</string>
     <string name="book_requires_supplier_name">Book requires a product supplier name.</string>
     <string name="book_requires_supplier_telephone">Book requires a product supplier telephone number.</string>
-    <string name="insert_not_supported_for_uri">Insertion is not supported for</string>
-    <string name="update_not_supported_for_uri">Update is not supported for</string>
-    <string name="delete_not_supported_for_uri">Deletion is not supported for</string>
-    <string name="unknown_uri">Unknown URI</string>
-    <string name="with_match">with match</string>
+    <string name="product_quantity_label_items_left">items left</string>
+    <string name="sale_button">Sale</string>
+    <string name="product_price_label">Product Price:</string>
+    <string name="empty_inventory_message">It seems that your Inventory is empty. Try adding a book.</string>
+    <string name="quantity_update_succeessful">Quantity Update Successful</string>
+    <string name="quantity_update_unsuccessful">Quantity Update Unsuccessful</string>
+    <string name="no_books_message">There are no more books in the inventory. Try calling your supplier.</string>
 </resources>

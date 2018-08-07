@@ -8,9 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import com.example.android.bookinventory.InventoryApp;
-import com.example.android.bookinventory.R;
-
 
 /**
  * Created by Eli on 02-Aug-18.
@@ -106,7 +103,7 @@ public class BookProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.cannot_query_unknown_url) + " " + uri);
+                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
         // Set notification URI on the Cursor,
@@ -129,7 +126,7 @@ public class BookProvider extends ContentProvider {
             case BOOKS:
                 return insertBook(uri, contentValues);
             default:
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.insert_not_supported_for_uri) + " " + uri);
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
     }
 
@@ -152,7 +149,7 @@ public class BookProvider extends ContentProvider {
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateBook(uri, contentValues, selection, selectionArgs);
             default:
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.update_not_supported_for_uri) + " " + uri);
+                throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
 
@@ -183,7 +180,7 @@ public class BookProvider extends ContentProvider {
                 rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.delete_not_supported_for_uri) + " "  + uri);
+                throw new IllegalArgumentException("Deletion is not supported for "  + uri);
         }
 
         // If 1 or more rows were deleted, then notify all listeners that the data at the
@@ -207,7 +204,7 @@ public class BookProvider extends ContentProvider {
             case BOOK_ID:
                 return BookContract.BookEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException(InventoryApp.getRes().getString(R.string.unknown_uri) + " " + uri + " " + InventoryApp.getRes().getString(R.string.with_match) + " " + match);
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
     }
 
@@ -225,21 +222,21 @@ public class BookProvider extends ContentProvider {
         // Check that the product name value is not null.
         String name = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
-            throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_product_name));
+            throw new IllegalArgumentException("Book requires a product name.");
         }
 
 
         // check that the product price value is not null.
         String price = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_PRICE);
         if (price == null) {
-            throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_price));
+            throw new IllegalArgumentException("Book requires a price.");
         }
 
 
         // Check that the quantity is greater than or equal to 0
         Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_PRODUCT_QUANTITY);
         if (quantity == null || quantity < 0) {
-            throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_valid_quantity));
+            throw new IllegalArgumentException("Book requires valid quantity and cannot be null.");
         }
 
 
@@ -247,20 +244,20 @@ public class BookProvider extends ContentProvider {
         //So we check if genre value is present and the genre is valid in this case
         Integer genre = values.getAsInteger(BookContract.BookEntry.COLUMN_PRODUCT_GENRE);
         if (genre != null && !BookContract.BookEntry.isValidGenre(genre)) {
-            throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_valid_genre));
+            throw new IllegalArgumentException("Book requires valid genre.");
         }
 
 
         // check that the product supplier name value is not null.
         String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
         if (supplierName == null) {
-            throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_supplier_name));
+            throw new IllegalArgumentException("Book requires a product supplier name.");
         }
 
         // check that the product supplier phone value is not null.
         String supplierPhone = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
         if (supplierPhone == null) {
-            throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_supplier_telephone));
+            throw new IllegalArgumentException("Book requires a product supplier telephone number.");
         }
 
         // If we passed all the exceptions we are ready to write to the database - data is correct
@@ -306,7 +303,7 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_product_name));
+                throw new IllegalArgumentException("Book requires a product name.");
             }
         }
 
@@ -315,7 +312,7 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRODUCT_PRICE)) {
             String price = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_PRICE);
             if (price == null) {
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_price));
+                throw new IllegalArgumentException("Book requires a price.");
             }
         }
 
@@ -326,7 +323,7 @@ public class BookProvider extends ContentProvider {
             // Check that the quantity is greater than or equal to 0
             Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_PRODUCT_QUANTITY);
             if (quantity == null || quantity < 0) {
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_valid_quantity));
+                throw new IllegalArgumentException("Book requires valid quantity and cannot be null.");
             }
         }
 
@@ -336,7 +333,7 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRODUCT_GENRE)) {
             Integer genre = values.getAsInteger(BookContract.BookEntry.COLUMN_PRODUCT_GENRE);
             if (genre != null && !BookContract.BookEntry.isValidGenre(genre)) {
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_valid_genre));
+                throw new IllegalArgumentException("Book requires valid genre.");
             }
         }
 
@@ -345,7 +342,7 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME)) {
             String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
             if (supplierName == null) {
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_supplier_name));
+                throw new IllegalArgumentException("Book requires a product supplier name.");
             }
         }
 
@@ -354,7 +351,7 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE)) {
             String supplierPhone = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
             if (supplierPhone == null) {
-                throw new IllegalArgumentException(InventoryApp.getRes().getString(R.string.book_requires_supplier_telephone));
+                throw new IllegalArgumentException("Book requires a product supplier telephone number.");
             }
         }
 
