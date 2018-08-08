@@ -13,7 +13,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="MyTextViewsPrimaryText"  parent="@android:style/TextAppearance">
+    <style name="CardViewStyle" parent="CardView">
+        <item name="android:layout_margin">@dimen/card_margin</item>
+        <item name="cardCornerRadius">@dimen/card_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="cardBackgroundColor">@color/icons</item>
+    </style>
+
+    <style name="MyTextViewsPrimaryText" parent="@android:style/TextAppearance">
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>

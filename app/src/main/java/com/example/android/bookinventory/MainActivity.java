@@ -1,8 +1,10 @@
 package com.example.android.bookinventory;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +69,27 @@ public class MainActivity extends AppCompatActivity implements
         // There is no book data yet (until the loader finishes) so pass in null for the Cursor.
         mCursorAdapter = new BookCursorAdapter(this, null);
         bookListView.setAdapter(mCursorAdapter);
+
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Create new intent to go to {@link DetailActivity}
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                // Form the content URI that represents the specific book that was clicked on,
+                // by appending the "id" (passed as input to this method) onto the
+                // {@link BookEntry#CONTENT_URI}.
+                // For example, the URI would be "content://com.example.android.bookinventory/books/2"
+                // if the book with ID 2 was clicked on.
+                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
+
+                Log.e("MainActivity", currentBookUri.toString());
+
+                // Set the URI on the data field of the intent
+                intent.setData(currentBookUri);
+                // Launch the {@link EditorActivity} to display the data for the current pet.
+                startActivity(intent);
+            }
+        });
 
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
 

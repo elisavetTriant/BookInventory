@@ -86,6 +86,18 @@ public final class BookContract {
         public static final int GENRE_NON_FICTION = 13;
         public static final int GENRE_FICTION = 14;
 
+
+        /**
+         * Returns whether or not the given genre is valid.
+         */
+        public static boolean isValidGenre(int genre) {
+            return (genre == GENRE_UNKNOWN || genre == GENRE_TRAGEDY || genre == GENRE_TRAGIC_COMEDY
+                    || genre == GENRE_FANTASY || genre == GENRE_MYTHOLOGY || genre == GENRE_ADVENTURE
+                    || genre == GENRE_MYSTERY || genre == GENRE_SCIENCE_FICTION || genre == GENRE_DRAMA
+                    || genre == GENRE_ROMANCE || genre == GENRE_ACTION_ADVENTURE || genre == GENRE_SATIRE
+                    || genre == GENRE_HORROR || genre == GENRE_NON_FICTION || genre == GENRE_FICTION);
+        }
+
         /*
         * Note:
         *
@@ -112,14 +124,61 @@ public final class BookContract {
         * */
 
         /**
-         * Returns whether or not the given genre is valid.
+         * Returns the product genre in a human readable format.
          */
-        public static boolean isValidGenre(int genre) {
-            return (genre == GENRE_UNKNOWN || genre == GENRE_TRAGEDY || genre == GENRE_TRAGIC_COMEDY
-                    || genre == GENRE_FANTASY || genre == GENRE_MYTHOLOGY || genre == GENRE_ADVENTURE
-                    || genre == GENRE_MYSTERY || genre == GENRE_SCIENCE_FICTION || genre == GENRE_DRAMA
-                    || genre == GENRE_ROMANCE || genre == GENRE_ACTION_ADVENTURE || genre == GENRE_SATIRE
-                    || genre == GENRE_HORROR || genre == GENRE_NON_FICTION || genre == GENRE_FICTION);
+        public static String getProductGenre(int genre){
+
+            String readableGenre;
+
+            switch (genre) {
+               case GENRE_TRAGEDY:
+                    readableGenre = "Tragedy";
+                    break;
+                case GENRE_TRAGIC_COMEDY:
+                    readableGenre = "Tragic comedy";
+                    break;
+                case GENRE_FANTASY:
+                    readableGenre = "Fantasy";
+                    break;
+                case GENRE_MYTHOLOGY:
+                    readableGenre = "Mythology";
+                    break;
+                case GENRE_ADVENTURE:
+                    readableGenre = "Adventure";
+                    break;
+                case GENRE_MYSTERY:
+                    readableGenre = "Mystery";
+                    break;
+                case GENRE_SCIENCE_FICTION:
+                    readableGenre = "Science fiction";
+                    break;
+                case GENRE_DRAMA:
+                    readableGenre = "Drama";
+                    break;
+                case GENRE_ROMANCE:
+                    readableGenre = "Romance";
+                    break;
+                case GENRE_ACTION_ADVENTURE:
+                    readableGenre = "Action / Adventure";
+                    break;
+                case GENRE_SATIRE:
+                    readableGenre = "Satire";
+                    break;
+                case GENRE_HORROR:
+                    readableGenre = "Horror";
+                    break;
+                case GENRE_NON_FICTION:
+                    readableGenre = "Non Fiction";
+                    break;
+                case GENRE_FICTION:
+                    readableGenre = "Fiction";
+                    break;
+                default:
+                    readableGenre = "Unknown genre";
+                    break;
+            }
+
+            return readableGenre;
         }
 
     }

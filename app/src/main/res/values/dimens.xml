@@ -1,5 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="main_content_margin">16dp</dimen>
-    <dimen name="widgets_margin">10dp</dimen>
+    <dimen name="widgets_margin">16dp</dimen>
+    <dimen name="card_margin">12dp</dimen>
+    <dimen name="card_radius">4dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
 </resources>
