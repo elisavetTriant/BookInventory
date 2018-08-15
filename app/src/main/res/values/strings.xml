@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Book Inventory</string>
-    <string name="insert_error_message">Error inserting row in the database.</string>
-    <string name="insert_ok_message">Book saved with row id: <xliff:g example="2" id="rowID">%s</xliff:g>.</string>
-    <string name="deleted_message">Deleted <xliff:g example="2" id="deletedRows">%d</xliff:g> rows from the database!</string>
-    <string name="count_message">The <xliff:g example="books" id="tableName">%s</xliff:g> table contains <xliff:g example="2" id="rows">%d</xliff:g> rows.</string>
+    <string name="insert_error_message">Error inserting book in the database.</string>
+    <string name="insert_ok_message">Book saved successfully.</string>
+    <string name="update_error_message">Error updating book.</string>
+    <string name="update_ok_message">Book updated successfully.</string>
     <string name="dummy_product_name">Against the MACHINE - Lee Siegel</string>
     <string name="dummy_product_price">4.99</string>
     <string name="dummy_supplier_name">Public S.A.</string>
     <string name="dummy_supplier_phone">+30 2108181333</string>
-    <string name="action_delete_all">Delete All</string>
-    <string name="action_update_all">Update All</string>
-    <string name="update_books_failed">Batch Update Failed</string>
-    <string name="update_books_successful">Batch Update Successful</string>
     <string name="book_requires_product_name">Book requires a product name.</string>
-    <string name="book_requires_price">Book requires a price.</string>
-    <string name="book_requires_valid_quantity">Book requires valid quantity and cannot be null.</string>
-    <string name="book_requires_valid_genre">Book requires valid genre.</string>
+    <string name="book_requires_valid_price">Book requires a product price.</string>
+    <string name="book_requires_valid_quantity">Book requires a product quantity.</string>
     <string name="book_requires_supplier_name">Book requires a product supplier name.</string>
     <string name="book_requires_supplier_telephone">Book requires a product supplier telephone number.</string>
     <string name="product_quantity_label_items_left">items left</string>
     <string name="sale_button">Sale</string>
     <string name="product_price_label">Product Price</string>
-    <string name="empty_inventory_message">It seems that your Inventory is empty. Try adding a book.</string>
-    <string name="quantity_update_succeessful">Quantity Update Successful</string>
+    <string name="empty_inventory_message">It seems that your Inventory is empty. Try adding a book by pressing the floating button, or inserting sample data using the menu. All fields in the form are required.</string>
+    <string name="quantity_update_successful">Quantity Update Successful</string>
     <string name="quantity_update_unsuccessful">Quantity Update Unsuccessful</string>
     <string name="no_books_message">There are no more books in the inventory. Try calling your supplier.</string>
     <string name="title_activity_detail">Book Details</string>
@@ -41,4 +36,28 @@
     <string name="delete_negative_button">Cancel</string>
     <string name="deletion_failed">Deletion failed</string>
     <string name="deletion_successful">Deletion successful</string>
+    <string name="save_record">Save Record</string>
+    <string name="supplier_information_label">Supplier Information</string>
+    <string name="product_information_label">Product Information</string>
+    <string name="genre_unknown">Unknown genre</string>
+    <string name="genre_tragedy">Tragedy</string>
+    <string name="genre_tragic_comedy">Tragic comedy</string>
+    <string name="genre_fantasy">Fantasy</string>
+    <string name="genre_mythology">Mythology</string>
+    <string name="genre_adventure">Adventure</string>
+    <string name="genre_mystery">Mystery</string>
+    <string name="genre_science_fiction">Science fiction</string>
+    <string name="genre_drama">Drama</string>
+    <string name="genre_romance">Romance</string>
+    <string name="genre_action_adventure">Action / Adventure</string>
+    <string name="genre_satire">Satire</string>
+    <string name="genre_horror">Horror</string>
+    <string name="genre_non_fiction">Non Fiction</string>
+    <string name="genre_fiction">Fiction</string>
+    <string name="editor_activity_title_new_book">Add a Book</string>
+    <string name="editor_activity_title_edit_book">Edit Book</string>
+    <string name="insert_sample_data">Insert sample data</string>
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
 </resources>

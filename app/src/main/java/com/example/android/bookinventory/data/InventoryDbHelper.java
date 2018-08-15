@@ -10,7 +10,7 @@ import com.example.android.bookinventory.data.BookContract.BookEntry;
  * Created by Eli on 29-Jul-18.
  */
 
-public class InventoryDbHelper extends SQLiteOpenHelper{
+public class InventoryDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "inventory.db";
 

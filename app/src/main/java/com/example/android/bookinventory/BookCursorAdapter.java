@@ -109,7 +109,7 @@ public class BookCursorAdapter extends CursorAdapter {
                     Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, currentID);
                     int rowsAffected = currentContext.getContentResolver().update(currentBookUri, values, null, null);
                     if (rowsAffected == 1) {
-                        Toast.makeText(currentContext, currentContext.getString(R.string.quantity_update_succeessful),
+                        Toast.makeText(currentContext, currentContext.getString(R.string.quantity_update_successful),
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(currentContext, currentContext.getString(R.string.quantity_update_unsuccessful),

@@ -20,11 +20,6 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:name=".data.BookProvider"
-            android:authorities="com.example.android.bookinventory"
-            android:exported="false" />
-
         <activity
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
@@ -34,6 +29,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.bookinventory.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".EditorActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.bookinventory.MainActivity" />
+        </activity>
+
+        <provider
+            android:name=".data.BookProvider"
+            android:authorities="com.example.android.bookinventory"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_genre_options">
+        <item>@string/genre_unknown</item>
+        <item>@string/genre_non_fiction</item>
+        <item>@string/genre_fiction</item>
+        <item>@string/genre_tragedy</item>
+        <item>@string/genre_tragic_comedy</item>
+        <item>@string/genre_fantasy</item>
+        <item>@string/genre_mythology</item>
+        <item>@string/genre_adventure</item>
+        <item>@string/genre_mystery</item>
+        <item>@string/genre_science_fiction</item>
+        <item>@string/genre_drama</item>
+        <item>@string/genre_romance</item>
+        <item>@string/genre_action_adventure</item>
+        <item>@string/genre_satire</item>
+        <item>@string/genre_horror</item>
+    </string-array>
+</resources>

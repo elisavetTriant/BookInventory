@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/divider"
-    tools:context="com.example.android.bookinventory.DetailActivity">
+    tools:context="com.example.android.bookinventory.EditorActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -53,88 +53,49 @@
                     android:padding="@dimen/main_content_margin">
 
                     <TextView
-                        android:id="@+id/product_name_label"
+                        android:id="@+id/product_info"
                         style="@style/MyTextViewsSecondaryText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/widgets_margin"
-                        android:text="@string/product_name_label"
+                        android:text="@string/product_information_label"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/product_name"
-                        style="@style/MyTextViewsPrimaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/widgets_margin"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/product_name_label"
-                        tools:text="Product Name" />
 
-                    <TextView
-                        android:id="@+id/product_price_label"
-                        style="@style/MyTextViewsSecondaryText"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/product_name"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:hint="@string/product_name_label"
                         android:paddingBottom="@dimen/widgets_margin"
-                        android:paddingRight="@dimen/widgets_margin"
-                        android:text="@string/product_price_label"
                         app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/product_info" />
+
+
+                    <EditText
+                        android:id="@+id/product_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/product_price_label"
+                        android:inputType="numberDecimal"
+                        android:paddingBottom="@dimen/widgets_margin"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/product_name" />
 
-                    <TextView
-                        android:id="@+id/product_price"
-                        style="@style/MyTextViewsPrimaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/widgets_margin"
-                        app:layout_constraintLeft_toRightOf="@id/product_price_label"
-                        app:layout_constraintTop_toBottomOf="@id/product_name"
-                        tools:text="$4.99" />
 
-                    <TextView
-                        android:id="@+id/product_quantity_label"
-                        style="@style/MyTextViewsSecondaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/widgets_margin"
-                        android:paddingEnd="@dimen/widgets_margin"
-                        android:paddingRight="@dimen/widgets_margin"
-                        android:text="@string/quantity_label"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/minus_one_button"
-                        app:layout_constraintTop_toBottomOf="@id/product_price_label" />
-
-                    <Button
-                        android:id="@+id/minus_one_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/widgets_margin"
-                        android:text="@string/minus_one_button_label"
-                        app:layout_constraintLeft_toRightOf="@id/product_quantity_label"
-                        app:layout_constraintRight_toLeftOf="@id/product_quantity"
-                        app:layout_constraintTop_toBottomOf="@id/product_price_label" />
-
-                    <TextView
+                    <EditText
                         android:id="@+id/product_quantity"
-                        style="@style/MyTextViewsPrimaryText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/widgets_margin"
-                        app:layout_constraintLeft_toRightOf="@id/minus_one_button"
-                        app:layout_constraintRight_toLeftOf="@id/add_one_button"
-                        app:layout_constraintTop_toBottomOf="@id/product_price_label"
-                        tools:text="3" />
-
-                    <Button
-                        android:id="@+id/add_one_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/widgets_margin"
-                        android:text="@string/add_one_button_label"
-                        app:layout_constraintLeft_toRightOf="@id/product_quantity"
+                        android:hint="@string/quantity_label"
+                        android:inputType="number"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/product_price" />
+
 
                     <TextView
                         android:id="@+id/product_genre_label"
@@ -146,16 +107,16 @@
                         android:paddingRight="@dimen/widgets_margin"
                         android:text="@string/genre_label"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/minus_one_button" />
+                        app:layout_constraintTop_toBottomOf="@id/product_quantity" />
 
-                    <TextView
+                    <Spinner
                         android:id="@+id/product_genre"
-                        style="@style/MyTextViewsPrimaryText"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:paddingBottom="@dimen/widgets_margin"
+                        android:spinnerMode="dropdown"
                         app:layout_constraintLeft_toRightOf="@id/product_genre_label"
-                        app:layout_constraintTop_toBottomOf="@id/minus_one_button" />
+                        app:layout_constraintTop_toBottomOf="@id/product_quantity" />
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -175,51 +136,36 @@
                     android:padding="@dimen/main_content_margin">
 
                     <TextView
-                        android:id="@+id/product_supplier_name_label"
+                        android:id="@+id/supplier_info"
                         style="@style/MyTextViewsSecondaryText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/widgets_margin"
-                        android:text="@string/supplier_name"
-                        app:layout_constraintLeft_toLeftOf="parent" />
+                        android:text="@string/supplier_information_label"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/product_supplier_name"
-                        style="@style/MyTextViewsPrimaryText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:hint="@string/supplier_name"
                         android:paddingBottom="@dimen/widgets_margin"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/product_supplier_name_label"
-                        tools:text="Product Supplier Name" />
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/supplier_info" />
 
-                    <TextView
-                        android:id="@+id/product_supplier_phone_label"
-                        style="@style/MyTextViewsSecondaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/widgets_margin"
-                        android:text="@string/supplier_phone_number"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/product_supplier_name" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/product_supplier_phone"
-                        style="@style/MyTextViewsPrimaryText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:hint="@string/supplier_phone_number"
+                        android:inputType="phone"
                         android:paddingBottom="@dimen/widgets_margin"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/product_supplier_phone_label"
-                        tools:text="Product Supplier Phone" />
-
-                    <Button
-                        android:id="@+id/call_supplier_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/call_supplier_button_label"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/product_supplier_phone" />
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/product_supplier_name" />
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -228,13 +174,5 @@
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/outline_create_white_24" />
 
 </android.support.design.widget.CoordinatorLayout>

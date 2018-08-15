@@ -16,7 +16,7 @@ import android.net.Uri;
 
 public class BookProvider extends ContentProvider {
 
-     /**
+    /**
      * URI matcher code for the content URI for the books table (all records)
      */
     private static final int BOOKS = 100;
@@ -180,7 +180,7 @@ public class BookProvider extends ContentProvider {
                 rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Deletion is not supported for "  + uri);
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
 
         // If 1 or more rows were deleted, then notify all listeners that the data at the
@@ -361,7 +361,7 @@ public class BookProvider extends ContentProvider {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         // Returns the number of database rows affected by the update statement
-        int rowsUpdated  = database.update(BookContract.BookEntry.TABLE_NAME, values, selection, selectionArgs);
+        int rowsUpdated = database.update(BookContract.BookEntry.TABLE_NAME, values, selection, selectionArgs);
 
         // If 1 or more rows were updated, then notify all listeners that the data at the
         // given URI has changed

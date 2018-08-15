@@ -2,6 +2,7 @@ package com.example.android.bookinventory;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -11,7 +12,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -52,6 +52,8 @@ public class DetailActivity extends AppCompatActivity implements
 
     private Button addQuantityButton;
 
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,15 +77,7 @@ public class DetailActivity extends AppCompatActivity implements
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: This will open the editor activity with an intent in editing mode (will pass the mCurrentBookUri)
-                Snackbar.make(view, "Open the editor activity in editing mode.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab = findViewById(R.id.fab);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -154,6 +148,7 @@ public class DetailActivity extends AppCompatActivity implements
             // Now extract properties from cursor
 
             // Step a) Figure out the index of each column
+            int idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
             int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
             int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY);
@@ -163,13 +158,14 @@ public class DetailActivity extends AppCompatActivity implements
 
             // step b) Use that index to extract the String or Int value of the book
             // at the current row the cursor is on.
+            final long currentId = cursor.getInt(idColumnIndex);
             String currentName = cursor.getString(nameColumnIndex);
             String currentPrice = cursor.getString(priceColumnIndex);
             final int currentQuantity = cursor.getInt(quantityColumnIndex);
             int currentGenre = cursor.getInt(genreColumnIndex);
             String currentSupplierName = cursor.getString(supplierNameColumnIndex);
             final String currentSupplierPhone = cursor.getString(supplierPhoneColumnIndex);
-            String genre = BookEntry.getProductGenre(currentGenre);
+            String genre = getProductGenre(currentGenre);
 
 
             //https://stackoverflow.com/questions/9187586/storing-currency-in-sqlite-android-database
@@ -213,6 +209,19 @@ public class DetailActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View view) {
                     dialPhoneNumber(currentSupplierPhone);
+                }
+            });
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Create new intent to go to {@link EditorActivity}
+                    Intent intent = new Intent(DetailActivity.this, EditorActivity.class);
+                    Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, currentId);
+                    // Set the URI on the data field of the intent
+                    intent.setData(currentBookUri);
+                    // Launch the {@link EditorActivity} to edit this book
+                    startActivity(intent);
                 }
             });
         }
@@ -299,13 +308,71 @@ public class DetailActivity extends AppCompatActivity implements
 
             //Show messages depending on the result
             if (rowsAffected == 1) {
-                Toast.makeText(this, getString(R.string.quantity_update_succeessful),
+                Toast.makeText(this, getString(R.string.quantity_update_successful),
                         Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, getString(R.string.quantity_update_unsuccessful),
                         Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    /**
+     * Helper method. Takes as a parameter the genre and returns the product genre in a human readable format.
+     */
+    private String getProductGenre(int genre) {
+
+        String readableGenre;
+
+        switch (genre) {
+            case BookEntry.GENRE_TRAGEDY:
+                readableGenre = getString(R.string.genre_tragedy);
+                break;
+            case BookEntry.GENRE_TRAGIC_COMEDY:
+                readableGenre = getString(R.string.genre_tragic_comedy);
+                break;
+            case BookEntry.GENRE_FANTASY:
+                readableGenre = getString(R.string.genre_fantasy);
+                break;
+            case BookEntry.GENRE_MYTHOLOGY:
+                readableGenre = getString(R.string.genre_mythology);
+                break;
+            case BookEntry.GENRE_ADVENTURE:
+                readableGenre = getString(R.string.genre_adventure);
+                break;
+            case BookEntry.GENRE_MYSTERY:
+                readableGenre = getString(R.string.genre_mystery);
+                break;
+            case BookEntry.GENRE_SCIENCE_FICTION:
+                readableGenre = getString(R.string.genre_science_fiction);
+                break;
+            case BookEntry.GENRE_DRAMA:
+                readableGenre = getString(R.string.genre_drama);
+                break;
+            case BookEntry.GENRE_ROMANCE:
+                readableGenre = getString(R.string.genre_romance);
+                break;
+            case BookEntry.GENRE_ACTION_ADVENTURE:
+                readableGenre = getString(R.string.genre_action_adventure);
+                break;
+            case BookEntry.GENRE_SATIRE:
+                readableGenre = getString(R.string.genre_satire);
+                break;
+            case BookEntry.GENRE_HORROR:
+                readableGenre = getString(R.string.genre_horror);
+                break;
+            case BookEntry.GENRE_NON_FICTION:
+                readableGenre = getString(R.string.genre_non_fiction);
+                break;
+            case BookEntry.GENRE_FICTION:
+                readableGenre = getString(R.string.genre_fiction);
+                break;
+            default:
+                readableGenre = getString(R.string.genre_unknown);
+                break;
+        }
+
+        return readableGenre;
     }
 
     //Source: https://developer.android.com/guide/components/intents-common#DialPhone
